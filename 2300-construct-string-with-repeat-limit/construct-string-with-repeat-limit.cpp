@@ -6,28 +6,29 @@ public:
         for(int i=0;i<s.size();i++){
             freq[s[i]-'a']++;
         }
-        int i=25;
-        while(i>=0){
-            if(freq[i]==0){
-                i--;
-                continue;
-            }
-            char ch=i+'a';
-            int limit=min(freq[i],repeatLimit);
-            ans.append(limit,ch);
-            freq[i]-=limit;
-
+        
+        priority_queue<char>maxH;
+        for(int i=0;i<26;i++){
             if(freq[i]!=0){
-                int j=i-1;
-                while(j>=0 && freq[j]==0){
-                    j--;
-                }
+                maxH.push(i+'a');
+            }
+        }
 
-                if(j<0){
-                    break;
-                }
-                ans.push_back(j+'a');
-                freq[j]--;
+        while(!maxH.empty()){
+            char top=maxH.top();
+            maxH.pop();
+            int limit=min(freq[top-'a'],repeatLimit);
+            ans.append(limit,top);
+            freq[top-'a']-=limit;
+            if(freq[top-'a']!=0){
+                if(maxH.empty())break;
+                char next_top=maxH.top();
+                maxH.pop();
+                ans.push_back(next_top);
+                freq[next_top-'a']--;
+
+                if(freq[next_top-'a']>0)maxH.push(next_top);
+                maxH.push(top);
             }
         }
         return ans;
