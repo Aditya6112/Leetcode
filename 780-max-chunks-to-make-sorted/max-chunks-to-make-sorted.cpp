@@ -2,12 +2,10 @@ class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) {
         int chunk=0;
-        int cummulative_sum=0;
-        int original_sum=0;
+        int maxi=-1;
         for(int i=0;i<arr.size();i++){
-            cummulative_sum+=arr[i];
-            original_sum+=i;
-            if(original_sum==cummulative_sum)chunk++;
+            maxi=max(maxi,arr[i]);
+            if(maxi==i)chunk++;
         }
         return chunk;
     }
