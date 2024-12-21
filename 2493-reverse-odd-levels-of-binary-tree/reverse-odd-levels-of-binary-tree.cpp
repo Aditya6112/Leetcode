@@ -1,31 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     TreeNode* reverseOddLevels(TreeNode* root) {
-        if (!root) return nullptr;
-        queue<TreeNode*> q;
+        queue<TreeNode*>q;
         q.push(root);
-        bool isOddLevel = false; 
-        
-        while (!q.empty()) {
-            int levelSize = q.size();
-            vector<TreeNode*> currentLevelNodes;
-            for (int i = 0; i < levelSize; i++) {
-                TreeNode* node = q.front();
+        int level=0;
+        while(!q.empty()){
+            int n=q.size();
+            vector<TreeNode*>levelNodes;
+            while(n--){
+                TreeNode* temp=q.front();
                 q.pop();
-                currentLevelNodes.push_back(node);
-                
-                if (node->left) q.push(node->left);
-                if (node->right) q.push(node->right);
-            }
-            if (isOddLevel) {
-                int n = currentLevelNodes.size();
-                for (int i = 0; i < n / 2; i++) {
-                    swap(currentLevelNodes[i]->val, currentLevelNodes[n - i - 1]->val);
+                levelNodes.push_back(temp);
+                if(temp->left){
+                    q.push(temp->left);
+                }
+                if(temp->right){
+                    q.push(temp->right);
                 }
             }
-            isOddLevel = !isOddLevel;
+            if(level%2==1){
+                int i=0;
+                int j=levelNodes.size()-1;
+                while(i<j){
+                    int temp=levelNodes[i]->val;
+                    levelNodes[i]->val=levelNodes[j]->val;
+                    levelNodes[j]->val=temp;
+                    i++;
+                    j--;
+                }
+            }
+            level++;
         }
-        
         return root;
     }
 };
