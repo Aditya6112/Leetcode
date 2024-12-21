@@ -11,37 +11,19 @@
  */
 class Solution {
 public:
-    TreeNode* reverseOddLevels(TreeNode* root) {
-        queue<TreeNode*>q;
-        q.push(root);
-        int level=0;
-        while(!q.empty()){
-            int n=q.size();
-            vector<TreeNode*>levelNodes;
-            while(n--){
-                TreeNode* temp=q.front();
-                q.pop();
-                levelNodes.push_back(temp);
-                if(temp->left){
-                    q.push(temp->left);
-                }
-                if(temp->right){
-                    q.push(temp->right);
-                }
-            }
-            if(level%2==1){
-                int i=0;
-                int j=levelNodes.size()-1;
-                while(i<j){
-                    int temp=levelNodes[i]->val;
-                    levelNodes[i]->val=levelNodes[j]->val;
-                    levelNodes[j]->val=temp;
-                    i++;
-                    j--;
-                }
-            }
-            level++;
+    void  solve(TreeNode* L,TreeNode* R,int lvl){
+        if(!L || !R)return;
+        if(lvl%2==1){
+            int temp=L->val;
+            L->val=R->val;
+            R->val=temp;
         }
+        solve(L->left,R->right,lvl+1);
+        solve(L->right,R->left,lvl+1);
+    }
+    TreeNode* reverseOddLevels(TreeNode* root) {
+        int level=1;
+        solve(root->left,root->right,level);
         return root;
     }
 };
