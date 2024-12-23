@@ -13,24 +13,26 @@ class Solution {
 public:
     int minSwaps(vector<int>&nums)
 	{
-	    vector<pair<int,int>> v;
-	    int n=nums.size();
-	    for(int i=0;i<n;i++)
-	    {
-	        v.push_back({nums[i],i});
-	    }
-	    sort(v.begin(),v.end());
-	    int swaps=0;
-	    for(int i=0;i<n;i++)
-	    {
-	        if(v[i].second==i) continue;
-	        else {
-	            swaps++;
-	            swap(v[i],v[v[i].second]);
-	            i--;
-	        }
-	    }
-	    return swaps;
+	    vector<int>sortedNums(begin(nums),end(nums));
+        sort(sortedNums.begin(),sortedNums.end());
+        unordered_map<int,int>mpp;
+        int swaps=0;
+        int idx=0;
+        for(auto num:nums){
+            mpp[num]=idx;
+            idx++;
+        }
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==sortedNums[i]){
+                continue;
+            }
+            int currIdx=mpp[sortedNums[i]];
+            mpp[nums[i]]=currIdx;
+            mpp[nums[currIdx]]=i;
+            swap(nums[i],nums[currIdx]);
+            swaps++;
+        }
+        return swaps;
 	}
     int minimumOperations(TreeNode* root) {
         queue<TreeNode*>q;
