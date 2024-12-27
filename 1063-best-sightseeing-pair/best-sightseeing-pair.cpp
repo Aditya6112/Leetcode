@@ -2,13 +2,13 @@ class Solution {
 public:
     int maxScoreSightseeingPair(vector<int>& values) {
         int n=values.size();
-        int maxi=INT_MIN;
         int ans=INT_MIN;
-        
+        priority_queue<int>pq;
+
         for(int j=1;j<n;j++){
-            maxi=max(maxi,(values[j-1]+(j-1)));
+            pq.push(values[j-1]+(j-1));
             int x=values[j]-j;
-            ans=max(ans,x+maxi);
+            ans=max(ans,x+pq.top());
         }
         return ans;
     }
