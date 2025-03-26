@@ -9,7 +9,7 @@ public:
             }
         }
         sort(vec.begin(),vec.end());
-        int target=vec[floor(vec.size()/2)];
+        int target=vec[(vec.size()/2)];
         for(auto num:vec){
             if(num%x!=target%x){
                 return -1;
