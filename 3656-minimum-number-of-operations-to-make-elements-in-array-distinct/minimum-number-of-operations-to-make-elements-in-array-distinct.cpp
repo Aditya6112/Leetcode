@@ -6,7 +6,7 @@ public:
             if (mp.count(nums[i])) {
                 return false;
             }
-            mp.emplace(nums[i]);
+            mp.insert(nums[i]);
         }
         return true;
     }
