@@ -1,25 +1,20 @@
 class Solution {
 public:
     int totalFruit(vector<int>& fruits) {
-        int i = 0, j = 0;
-        unordered_map<int, int> mp;
-        int ans = 0;
-        
-        while (j < fruits.size()) {
+        unordered_map<int,int>mp;
+        int i=0,j=0,ans=0;
+        while(j<fruits.size()){
             mp[fruits[j]]++;
-            
-            while (mp.size() > 2) {  // Shrink window if >2 types
+            if(mp.size()>2){
                 mp[fruits[i]]--;
-                if (mp[fruits[i]] == 0) {
-                    mp.erase(fruits[i]); // Correct key removal
+                if(mp[fruits[i]]==0){
+                    mp.erase(fruits[i]);
                 }
                 i++;
             }
-            
-            ans = max(ans, j - i + 1); // Update max length
+            ans=max(ans,j-i+1);
             j++;
         }
-        
         return ans;
     }
 };
