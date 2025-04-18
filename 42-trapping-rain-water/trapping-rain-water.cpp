@@ -1,40 +1,30 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
+        vector<int>leftMax;
+        vector<int>rightMax;
         int n=height.size();
 
-        vector<int>leftMax;
-        leftMax.push_back(height[0]);
-
-        vector<int>rightMax;
-        rightMax.push_back(height[n-1]);
-
-
-        for(int i=1;i<n;i++){
-            if(height[i]>=leftMax[i-1]){
-                leftMax.push_back(height[i]);
-            }else{
-                leftMax.push_back(leftMax[i-1]);
-            }
+        int lM=height[0];
+        leftMax.push_back(lM);
+        for(int i=1;i<height.size();i++){
+            lM=max(lM,height[i]);
+            leftMax.push_back(lM);
         }
 
-        int prev=height[n-1];
+        int rM=height[n-1];
+        rightMax.push_back(rM);
         for(int i=n-2;i>=0;i--){
-            if(height[i]>prev){
-                prev=height[i];
-                rightMax.push_back(height[i]);
-            }else{
-                rightMax.push_back(prev);
-            }
+            rM=max(rM,height[i]);
+            rightMax.push_back(rM);
         }
         reverse(rightMax.begin(),rightMax.end());
 
-        int capacity=0;
+        int ans=0;
         for(int i=0;i<n;i++){
-            if(height[i]<leftMax[i] && height[i]<rightMax[i]){
-                capacity+=min(leftMax[i],rightMax[i])-height[i];
-            }
+            if(height[i]<leftMax[i] && height[i]<rightMax[i])
+                ans+=min(leftMax[i],rightMax[i])-height[i];
         }
-        return capacity;
+        return ans;
     }
 };
