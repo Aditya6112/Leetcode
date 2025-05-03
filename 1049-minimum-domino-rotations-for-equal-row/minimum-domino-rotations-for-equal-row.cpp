@@ -3,7 +3,12 @@ public:
     int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
         int n=tops.size();
         int ans=INT_MAX;
-        for(int it=1;it<=6;it++){
+        set<int>st;
+        for(int i=0;i<n;i++){
+            st.insert(tops[i]);
+            st.insert(bottoms[i]);
+        }
+        for(auto it:st){
             int cnt1=0;
             int cnt2=0;
             for(int i=0;i<n;i++){
