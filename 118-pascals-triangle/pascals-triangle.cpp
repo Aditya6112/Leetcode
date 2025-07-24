@@ -10,23 +10,16 @@ public:
         if(numRows==2){
             return ans;
         }
-
-        int remain=numRows-2;
-        int idx=1;
-        while(remain--){
-            vector<int>temp=ans[idx];
-            vector<int>new_arr;
-            new_arr.push_back(1);
-            int i=0,j=1;
-            while(j<temp.size()){
-                int sum=temp[i]+temp[j];
-                new_arr.push_back(sum);
-                i++;
-                j++;
+        for(int i=3;i<=numRows;i++){
+            vector<int>temp;
+            temp.push_back(1);
+            vector<int>prev=ans.back();
+            for(int i=0;i<prev.size()-1;i++){
+                int sum=prev[i]+prev[i+1];
+                temp.push_back(sum);
             }
-            new_arr.push_back(1);
-            ans.push_back(new_arr);
-            idx++;
+            temp.push_back(1);
+            ans.push_back(temp);
         }
         return ans;
     }
