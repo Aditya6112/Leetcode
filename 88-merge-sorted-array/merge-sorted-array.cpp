@@ -1,38 +1,37 @@
 class Solution {
 public:
-    void mergeing(vector<int>& arr,int left,int mid,int right){
-        vector<int>final_arr;
-        int i=left;
-        int j=mid+1;
-        while(i<=mid && j<=right){
-            if(arr[i]<arr[j]){
-                final_arr.push_back(arr[i]);
+    void merging(vector<int>& nums,int start,int mid,int end){
+        vector<int>temp;
+        int i=start,j=mid+1;
+        while(i<=mid && j<=end){
+            if(nums[i]<nums[j]){
+                temp.push_back(nums[i]);
                 i++;
             }else{
-                final_arr.push_back(arr[j]);
+                temp.push_back(nums[j]);
                 j++;
             }
         }
         while(i<=mid){
-            final_arr.push_back(arr[i]);
+            temp.push_back(nums[i]);
             i++;
         }
-        while(j<=right){
-            final_arr.push_back(arr[j]);
+        while(j<=end){
+            temp.push_back(nums[j]);
             j++;
         }
-        for(int k=0;k<final_arr.size();k++){
-            arr[left + k]=final_arr[k];
+        for(int i=0;i<min(nums.size(),temp.size());i++){
+            nums[start+i]=temp[i];
         }
     }
-    void mergeSort(vector<int>& arr,int start,int end){
+    void mergeSort(vector<int>& nums,int start,int end){
         if(start>=end){
             return;
         }
         int mid=start+(end-start)/2;
-        mergeSort(arr,start,mid);
-        mergeSort(arr,mid+1,end);
-        mergeing(arr,start,mid,end);
+        mergeSort(nums,start,mid);
+        mergeSort(nums,mid+1,end);
+        merging(nums,start,mid,end);
     }
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         for(int i=m;i<m+n;i++){
