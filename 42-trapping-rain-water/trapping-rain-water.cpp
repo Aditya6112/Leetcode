@@ -1,30 +1,26 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        vector<int>leftMax;
-        vector<int>rightMax;
-        int n=height.size();
-
-        int lM=height[0];
-        leftMax.push_back(lM);
-        for(int i=1;i<height.size();i++){
-            lM=max(lM,height[i]);
-            leftMax.push_back(lM);
+        vector<int>left_to_right_max;
+        int maxi=INT_MIN;
+        for(int i=0;i<height.size();i++){
+            maxi=max(maxi,height[i]);
+            left_to_right_max.push_back(maxi);
         }
-
-        int rM=height[n-1];
-        rightMax.push_back(rM);
-        for(int i=n-2;i>=0;i--){
-            rM=max(rM,height[i]);
-            rightMax.push_back(rM);
+        vector<int>right_to_left_max;
+        maxi=INT_MIN;
+        for(int i=height.size()-1;i>=0;i--){
+            maxi=max(maxi,height[i]);
+            right_to_left_max.push_back(maxi);
         }
-        reverse(rightMax.begin(),rightMax.end());
+        reverse(right_to_left_max.begin(),right_to_left_max.end());
 
-        int ans=0;
-        for(int i=0;i<n;i++){
-            if(height[i]<leftMax[i] && height[i]<rightMax[i])
-                ans+=min(leftMax[i],rightMax[i])-height[i];
+        int cap=0;
+        for(int i=0;i<height.size();i++){
+            if(height[i]<left_to_right_max[i] && height[i]<right_to_left_max[i]){
+                cap+=min(left_to_right_max[i],right_to_left_max[i])-height[i];
+            }
         }
-        return ans;
+        return cap;
     }
 };
