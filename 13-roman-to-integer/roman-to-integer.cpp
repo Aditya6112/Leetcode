@@ -17,25 +17,22 @@ public:
         mp2["CM"]=900;
         mp['M']=1000;
 
-        int sum=0;
+        int num=0;
         int i=0;
         while(i<s.size()){
-            char a=s[i];
-            char b=s[i+1];
-            string temp="";
-            temp+=a;
-            temp+=b;
-            if(mp2.find(temp)!=mp2.end()){
-                sum+=mp2[temp];
-                i+=2;
-            }else{
-                sum+=mp[a];
+            char temp=s[i];
+            string t;
+            t.push_back(temp);
+            if(i+1<s.size() && mp2.find(t+s[i+1])!=mp2.end()){
+                cout<<t+s[i+1]<<endl;
+                num+=mp2[t+s[i+1]];
                 i++;
-                // if(i==s.size()-1){
-                //     sum+=mp[b];
-                // }
+            }else{
+                cout<<temp<<endl;
+                num+=mp[temp];
             }
+            i++;
         }
-        return sum;
+        return num;
     }
 };
