@@ -1,37 +1,31 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        if(t.size()>s.size())return "";
+        int m=s.size();
+        int n=t.size();
+        int sIdx=-1;
+        int minLen=INT_MAX;
         unordered_map<char,int>mp;
-        for(auto c:t){
-            mp[c]++;
+        for(auto ch:t){
+            mp[ch]++;
         }
-        int i=0,j=0;
-        int requiredCount=t.size();
-        int minWindowSize=INT_MAX;
-        int start_i=0;
-        while(j<s.size()){
-            char ch=s[j];
-            if(mp[ch]>0){
-                requiredCount--;
+        int cnt=0;
+        int i=0;
+        for(int j=0;j<m;j++){
+            if(mp[s[j]]>0){
+                cnt++;
             }
-            mp[ch]--;//we found one character then decrese the count in map
-
-            //if required count is 0 then try to shrink the window
-            while(requiredCount==0){
-                int currWindowSize=j-i+1;
-                if(currWindowSize<minWindowSize){
-                    minWindowSize=currWindowSize;
-                    start_i=i;
+            mp[s[j]]--;
+            while(cnt==n){
+                if(j-i+1<minLen){
+                    minLen=j-i+1;
+                    sIdx=i;
                 }
                 mp[s[i]]++;
-                if(mp[s[i]]>0){
-                    requiredCount++;
-                }
+                if(mp[s[i]]>0)cnt-=1;
                 i++;
             }
-            j++;
         }
-        return minWindowSize == INT_MAX ? "" : s.substr(start_i,minWindowSize);
+        return sIdx==-1 ? "" : s.substr(sIdx,minLen);
     }
 };
