@@ -14,6 +14,12 @@ public:
             }
         }
     }
+    void dfs(int src,unordered_map<int,list<int>>& adj_List,vector<bool>& visited){
+        visited[src]=true;
+        for(auto nbr:adj_List[src]){
+            if(!visited[nbr])dfs(nbr,adj_List,visited);
+        }
+    }
     void adjList(vector<vector<int>>& isConnected,unordered_map<int,list<int>>& adj_List){
         int n=isConnected.size();
         int m=isConnected[0].size();
@@ -34,7 +40,7 @@ public:
         int cnt=0;
         for(int i=0;i<n;i++){
             if(!visited[i]){
-                bfs(i,adj_List,visited);
+                dfs(i,adj_List,visited);
                 cnt++;
             }
         }
