@@ -1,25 +1,29 @@
 class Solution {
 public:
-    unordered_set<string> wordDict;
-    bool solve(int idx, string s,string str,vector<int>& dp) {
-        if (idx >= s.size())
+    bool solve(string s,string str, vector<string>& wordDict,int idx,unordered_set<string>& mp,vector<int>& dp){
+        if(idx>=s.size()){
             return true;
-        if (wordDict.find(s) != wordDict.end())
+        }
+        if(mp.find(s)!=mp.end()){
             return true;
+        }
         if(dp[idx]!=-1)return dp[idx];
-        for (int i = 1; i <= s.size(); i++) {
-            str = s.substr(idx, i);
-            if (wordDict.find(str) != wordDict.end() && solve(idx + i, s,str,dp))
+        for(int len=1;len<=s.size();len++){
+            str=s.substr(idx,len);
+            if(mp.find(str)!=mp.end() && solve(s,str,wordDict,len+idx,mp,dp)){
                 return dp[idx]=true;
+            }
         }
         return dp[idx]=false;
     }
-    bool wordBreak(string s, vector<string>& Dict) {
-        string str = "";
-        for (auto d : Dict) {
-            wordDict.insert(d);
-        }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string>mp;
         vector<int>dp(s.size()+1,-1);
-        return solve(0, s,str,dp);
+        string str="";
+        for(auto w:wordDict){
+            mp.insert(w);
+        }
+        return solve(s,str,wordDict,0,mp,dp);
     }
 };
